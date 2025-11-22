@@ -6,12 +6,18 @@ import ThemeToggle from "./ThemeToggle";
 export default function TopBar() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] backdrop-blur bg-[var(--bg)]/90">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-        <div className="font-extrabold text-[var(--fg)]">IA Creator</div>
-        <div className="flex-1 flex justify-center">
+      {/* Grid com 3 colunas: esquerda | centro | direita */}
+      <div className="mx-auto max-w-6xl grid grid-cols-[1fr_minmax(260px,640px)_1fr] items-center gap-3 px-4 py-3">
+        {/* Esquerda: logo/título */}
+        <div className="justify-self-start font-extrabold text-[var(--fg)]">IA Creator</div>
+
+        {/* Centro: SEMPRE centralizado */}
+        <div className="justify-self-center w-full">
           <SearchBar />
         </div>
-        <div className="flex items-center gap-2">
+
+        {/* Direita: tema + menu, alinhado à direita */}
+        <div className="justify-self-end flex items-center gap-2">
           <ThemeToggle />
           <RightMenu />
         </div>
