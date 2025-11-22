@@ -1,31 +1,38 @@
 "use client";
+
 import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(false);
-  useEffect(() => setDark(document.documentElement.classList.contains("dark")), []);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  function toggle() {
-    const root = document.documentElement;
-    if (root.classList.contains("dark")) {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setDark(false);
-    } else {
-      root.classList.add("dark");
+  // Carrega o tema salvo
+  useEffect(() => {
+    const saved = localStorage.getItem("theme") || "light";
+    setTheme(saved);
+    if (saved === "dark") document.documentElement.classList.add("dark");
+  }, []);
+
+  // Troca o tema
+  function toggleTheme() {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
-      setDark(true);
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
   }
 
   return (
     <button
-      onClick={toggle}
-      className="rounded-xl border border-[var(--border)] px-3 py-2 hover:bg-brand.light/60 transition"
-      aria-label="Alternar tema"
-      title="Modo escuro/claro"
+      onClick={toggleTheme}
+      className="p-2 rounded-md border border-[var(--border)] bg-[var(--bg)] text-[var(--fg)]"
+      title="Mudar tema"
     >
-      {dark ? "☀️" : "🌙"}
+      {theme === "light" ? "🌙" : "☀️"}
     </button>
   );
 }
