@@ -18,4 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>{children}</body>
     </html>
   );
-}
+}const themeInit = `
+try {
+  const saved = localStorage.getItem("theme");
+  if (saved === "dark") document.documentElement.classList.add('dark');
+} catch(e){}
+`;
