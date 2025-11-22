@@ -1,9 +1,10 @@
+import "./globals.css";
+
 export const metadata = {
   title: "IA Creator App",
-  description: "Criação de projetos com IA — barra central + menu à direita + dark mode"
+  description: "Criação de projetos com IA — barra central + menu à direita + dark mode",
 };
 
-// evita flash: aplica 'dark' inicial se guardado no localStorage
 const themeInit = `
 try{ if(localStorage.getItem('theme')==='dark'){ document.documentElement.classList.add('dark'); } }catch(e){}
 `;
