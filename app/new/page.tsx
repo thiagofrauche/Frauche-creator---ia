@@ -164,11 +164,10 @@ export default function NewProject() {
                     <SelectValue placeholder="Selecione o tipo" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="landing">Landing Page</SelectItem>
-                    <SelectItem value="ebook">E-book</SelectItem>
-                    <SelectItem value="video">Vídeo/Reel</SelectItem>
-                    <SelectItem value="app">App Simples</SelectItem>
-                    <SelectItem value="automation">Automação</SelectItem>
+                    <SelectItem value="fotos">Fotos</SelectItem>
+                    <SelectItem value="videos-clips">Vídeos Clips</SelectItem>
+                    <SelectItem value="banners">Banners</SelectItem>
+                    <SelectItem value="layout">Layout</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
