@@ -3,20 +3,41 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Download, Trash2 } from "lucide-react"
+import { Download, Trash2, Copy, Check } from "lucide-react"
+import { useState } from "react"
 
 interface ProjectCardProps {
   id: string
   title: string
   summary: string
   badges: string[]
+  prompt?: string
   onSave?: () => void
   onExport?: () => void
   onOpen?: () => void
   onDelete?: () => void
 }
 
-export function ProjectCard({ id, title, summary, badges, onSave, onExport, onOpen, onDelete }: ProjectCardProps) {
+export function ProjectCard({
+  id,
+  title,
+  summary,
+  badges,
+  prompt,
+  onSave,
+  onExport,
+  onOpen,
+  onDelete,
+}: ProjectCardProps) {
+  const [copiedSummary, setCopiedSummary] = useState(false)
+
+  const handleCopyPrompt = () => {
+    const textToCopy = prompt || summary
+    navigator.clipboard.writeText(textToCopy)
+    setCopiedSummary(true)
+    setTimeout(() => setCopiedSummary(false), 2000)
+  }
+
   return (
     <Card className="hover:shadow-lg transition-shadow bg-card border-border">
       <CardHeader>
@@ -39,8 +60,15 @@ export function ProjectCard({ id, title, summary, badges, onSave, onExport, onOp
           <Button size="sm" variant="outline" onClick={onOpen} className="flex-1 min-w-24 bg-transparent">
             Abrir
           </Button>
-          <Button size="sm" variant="outline" onClick={onSave} className="flex-1 min-w-24 bg-transparent">
-            Salvar
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={handleCopyPrompt}
+            className="flex-1 min-w-24 bg-transparent"
+            title="Copiar Prompt"
+          >
+            {copiedSummary ? <Check size={16} className="mr-1 text-green-600" /> : <Copy size={16} className="mr-1" />}
+            {copiedSummary ? "Copiado!" : "Copiar"}
           </Button>
           <Button size="sm" variant="outline" onClick={onExport} className="flex-1 min-w-24 bg-transparent">
             <Download size={16} className="mr-1" />

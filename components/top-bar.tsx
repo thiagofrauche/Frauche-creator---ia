@@ -1,25 +1,46 @@
 "use client"
 
 import { useState } from "react"
-import { Moon, Sun, Menu } from "lucide-react"
+import { Moon, Sun, Menu, MessageCircle } from "lucide-react"
 import { useTheme } from "next-themes"
-import { useRouter } from "next/navigation" // Use next/navigation for App Router
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SideBar } from "./sidebar"
+import { ChatSearchModal } from "./chat-search-modal"
 
 export function TopBar() {
   const { theme, setTheme } = useTheme()
-  const router = useRouter() // Corrected router import for App Router
+  const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [chatOpen, setChatOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
+
+  const handleNavigate = (intent: string) => {
+    switch (intent) {
+      case "transform":
+        router.push("/transform")
+        break
+      case "create":
+        router.push("/new")
+        break
+      case "projects":
+        router.push("/projects")
+        break
+      case "settings":
+        router.push("/settings")
+        break
+      default:
+        break
+    }
+  }
 
   const handleCreate = () => {
     const query = searchValue.trim().toLowerCase()
     if (query.includes("transform") || query.includes("foto") || query.includes("imagem") || query.includes("art")) {
       router.push("/transform")
     } else if (searchValue.trim()) {
-      console.log("Creating:", searchValue)
+      setChatOpen(true)
     }
   }
 
@@ -43,6 +64,14 @@ export function TopBar() {
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleCreate()}
               />
+              <Button
+                onClick={() => setChatOpen(true)}
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/90 gap-2"
+                title="Chat com IA"
+              >
+                <MessageCircle size={18} />
+                <span className="hidden lg:inline">Chat</span>
+              </Button>
               <Button onClick={handleCreate} className="bg-primary text-primary-foreground hover:bg-primary/90">
                 Criar
               </Button>
@@ -50,6 +79,15 @@ export function TopBar() {
 
             {/* Theme Toggle & Menu */}
             <div className="flex justify-end gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setChatOpen(true)}
+                className="md:hidden text-foreground"
+                title="Chat com IA"
+              >
+                <MessageCircle size={20} />
+              </Button>
               <Button
                 variant="ghost"
                 size="icon"
@@ -82,6 +120,7 @@ export function TopBar() {
       </div>
 
       <SideBar open={sidebarOpen} onOpenChange={setSidebarOpen} />
+      <ChatSearchModal open={chatOpen} onOpenChange={setChatOpen} onNavigate={handleNavigate} />
     </>
   )
 }
